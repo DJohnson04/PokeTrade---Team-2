@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -57,8 +58,7 @@ ROOT_URLCONF = 'poketrade.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,
-                              'poketrade/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'poketrade/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
