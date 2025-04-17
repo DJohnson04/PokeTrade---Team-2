@@ -8,6 +8,11 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 # Create your views here.
+@login_required
+def logout(request):
+    auth_logout(request)
+    return redirect('home.index')
+
 def signup(request):
     template_data = {}
     template_data['title'] = 'Sign Up'
@@ -43,6 +48,11 @@ def login(request):
         else:
             auth_login(request, user)
             return redirect('home.index')
+
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
+import logging
+
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'accounts/password_reset.html'
     email_template_name = 'accounts/password_reset_email.html'
