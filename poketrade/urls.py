@@ -23,7 +23,10 @@ urlpatterns = [
     path('', include('home.urls')),
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
-    path('', include('collection.urls'))
+    path('', include('collection.urls')),
+    path('', include('marketplace.urls')),
+    path('', include('swap_house.urls')),
+
 
 ]
 urlpatterns += static(settings.MEDIA_URL,

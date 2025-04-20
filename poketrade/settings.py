@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'home',
     'accounts',
     'collection',
+    'marketplace',
+    'swap_house'
 ]
 
 MIDDLEWARE = [
