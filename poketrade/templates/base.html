@@ -53,6 +53,9 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
             <a class="nav-link"
               href="{% url 'swap_house.index' %}">Swap House</a>
             {% if user.is_authenticated %}
+            <a class="nav-link fw-bold text-success" href="{% url 'accounts:wallet' %}">
+              ₽ ${{ user.ownedpokemon.wallet }}
+            </a>
             <a class="nav-link"
               href="{% url 'accounts.logout' %}">Logout ({{ user.username }})</a>
             {% else %}

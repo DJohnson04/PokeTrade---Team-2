@@ -29,3 +29,15 @@ class CustomErrorList(ErrorList):
         return mark_safe(''.join([
             f'<div class="alert alert-danger" role="alert">'
             f'{e}</div>' for e in self]))
+    
+class WalletForm(forms.Form):
+    amount = forms.DecimalField(
+        max_digits=10, 
+        decimal_places=2, 
+        min_value=0.01, 
+        label='Amount'
+    )
+    action = forms.ChoiceField(
+        choices=[('deposit', 'Deposit'), ('withdraw', 'Withdraw')],
+        label='Action'
+    )

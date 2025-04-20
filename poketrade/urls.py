@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('collection.urls')),
     path('', include('marketplace.urls')),
     path('', include('swap_house.urls')),
-
+    path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL,

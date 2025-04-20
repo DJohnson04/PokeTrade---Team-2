@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.urls import reverse_lazy
 
+from .forms import WalletForm
+
 from .forms import CustomUserCreationForm, CustomErrorList
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -66,3 +68,20 @@ class CustomPasswordResetView(PasswordResetView):
     def form_invalid(self, form):
         logging.error(f"Password reset form is invalid: {form.errors}")
         return super().form_invalid(form)
+
+def wallet_view(request):
+    owned_profile = request.user.ownedpokemon
+    if request.method == 'POST':
+        form = WalletForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            action = form.cleaned_data['action']
+            if action == 'deposit':
+                owned_profile.wallet += amount
+            elif action == 'withdraw' and owned_profile.wallet >= amount:
+                owned_profile.wallet -= amount
+            owned_profile.save()
+            return redirect('accounts:wallet')
+    else:
+        form = WalletForm()
+    return render(request, 'accounts/wallet.html', {'form': form, 'wallet': owned_profile.wallet})
