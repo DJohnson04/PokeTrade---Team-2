@@ -1,20 +1,27 @@
-{% extends 'base.html' %}
+
 {% block content %}
-<header class="masthead bg-index text-white text-center
-           py-4">
-  <div class="container d-flex align-items-center flex-
-  column pt-2">
+<header class="masthead bg-index text-white text-center py-4">
+  <div class="container d-flex align-items-center flex-column pt-2">
     <h2>PokeTrade</h2>
     <p>Your One-Stop Shop for Digital Pokemon Card Collecting!</p>
+    <a class="nav-link"
+              href="{% url 'create_listing' %}">Create Listing</a>
   </div>
 </header>
-<div class="p-3">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col mx-auto text-center mb-3">
-        <h4>Welcome to the Marketplace!</h4>
-      </div>
-    </div>
-  </div>
+
+<div class="container mt-4">
+    <h3>Marketplace Listings</h3>
+    {% for listing in listings %}
+        <div class="listing">
+            <h4>{{ listing.seller.user.username }}</h4>
+            <p>{{ listing.user_pokemon.pokemon.name }}</p>
+            <img src="{{ listing.user_pokemon.pokemon.image_url }}" alt="{{ listing.user_pokemon.pokemon.name }}">
+            <p>Price: ${{ listing.price }}</p>
+            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">View Details</a>
+        </div>
+    {% empty %}
+        <p>No listings available.</p>
+    {% endfor %}
 </div>
+
 {% endblock content %}

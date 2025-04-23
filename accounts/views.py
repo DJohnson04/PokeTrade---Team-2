@@ -9,6 +9,10 @@ from .forms import CustomUserCreationForm, CustomErrorList
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+
+from .models import UserAccount
+
+
 # Create your views here.
 @login_required
 def logout(request):
@@ -70,7 +74,7 @@ class CustomPasswordResetView(PasswordResetView):
         return super().form_invalid(form)
 
 def wallet_view(request):
-    owned_profile = request.user.ownedpokemon
+    owned_profile = UserAccount.objects.get(user=request.user)
     if request.method == 'POST':
         form = WalletForm(request.POST)
         if form.is_valid():

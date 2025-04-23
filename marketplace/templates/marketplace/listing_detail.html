@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <header class="masthead bg-primary text-white text-center py-4">
+    <div class="container d-flex align-items-center flex-column pt-2">
+      <h2>Listing Details</h2>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <div class="listing-detail">
+      <h3>{{ listing.user_pokemon.pokemon.name }}</h3>
+      <img src="{{ listing.user_pokemon.pokemon.image_url }}" alt="{{ listing.user_pokemon.pokemon.name }}">
+      <p><strong>Seller:</strong> {{ listing.seller.user.username }}</p>
+      <p><strong>Price:</strong> ${{ listing.price }}</p>
+      <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>  <!-- You can add a description field to your model if needed -->
+      <p><strong>Status:</strong> {% if listing.is_sold %} Sold {% else %} Available {% endif %}</p>
+    </div>
+  </div>
+
+{% endblock content %}

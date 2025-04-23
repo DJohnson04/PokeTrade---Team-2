@@ -6,16 +6,18 @@
     <title>User Profile</title>
 </head>
 <body>
+
     <h1>{{ user.username }}'s Pokemon</h1>
 
     <h2>Owned Pokémon:</h2>
     <ul>
-        {% for pokemon in owned_pokemon %}
-            <li>{{ pokemon.name }}</li>
-            <img src="{{pokemon.image_url}}">
-        {% empty %}
-            <p>You do not own any Pokémon yet.</p>
-        {% endfor %}
-    </ul>
+    {% for user_poke in owned_pokemon %}
+        <li>{{ user_poke.pokemon.name }}</li>
+        <img src="{{ user_poke.pokemon.image_url }}" alt="{{ user_poke.pokemon.name }}">
+    {% empty %}
+        <p>You do not own any Pokémon yet.</p>
+    {% endfor %}
+</ul>
+
 </body>
 </html>
