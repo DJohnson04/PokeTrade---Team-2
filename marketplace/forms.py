@@ -12,3 +12,13 @@ class ListingForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['user_pokemon'].queryset = UserPokemon.objects.filter(owner__user=user)
+class ListingEditForm(forms.ModelForm):
+    class Meta:
+        model = Listing
+        fields = ['price']
+
+    def clean_price(self):
+        price = self.cleaned_data['price']
+        if price <= 0:
+            raise forms.ValidationError("Price must be greater than zero.")
+        return price

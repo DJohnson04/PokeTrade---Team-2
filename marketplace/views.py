@@ -1,28 +1,50 @@
+from django.contrib import messages
 from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+
 from accounts.models import Listing, UserAccount
 from collection.models import Pokemon
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import Listing, UserAccount, UserPokemon
-from .forms import ListingForm
+from .forms import ListingForm, ListingEditForm
 from django.shortcuts import render, get_object_or_404
 from accounts.models import Listing
+from django.shortcuts import render
+from django.db.models import F
+from django.core.paginator import Paginator
+from django.urls import reverse
+
 
 @login_required()
 def index(request):
-    # Retrieve all active listings from the marketplace
-    listings = Listing.objects.filter(is_sold=False)  # Assuming only unsold listings should be shown
+    # Get all listings that are not sold
+    listings = Listing.objects.filter(is_sold=False)
 
-    # Pass listings to the template
+    # find user listings only
+    if request.GET.get('my_listings'):
+        listings = listings.filter(seller=request.user.useraccount)
+
+    # Handle sorting by price
+    sort_option = request.GET.get('sort_by', 'price_asc')
+    if sort_option == 'price_asc':
+        listings = listings.order_by('price')
+    elif sort_option == 'price_desc':
+        listings = listings.order_by('-price')
+
+    # Paginate the listings
+    paginator = Paginator(listings, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'marketplace/index.html', {
-        'listings': listings
+        'page_obj': page_obj,
+        'sort_option': sort_option,
     })
-
-
 
 
 @login_required
@@ -49,8 +71,58 @@ def create_listing(request):
 
 
 def listing_detail(request, id):
-    # Get the listing by its ID, or return a 404 if it doesn't exist
+    listing = get_object_or_404(Listing, id=id)
+    return render(request, 'marketplace/listing_detail.html', {'listing': listing})
+def purchase_listing(request, id):
+    buyer_account = UserAccount.objects.get(user=request.user)
+    listing = get_object_or_404(Listing, id=id)
+    if listing.is_sold:
+        messages.error("This pokemon has already been sold")
+        return redirect('listing_detail', id=id)
+    if listing.seller == buyer_account:
+        messages.error(request, "You can't buy your own listing.")
+        return redirect('listing_detail', id=id)
+
+    if buyer_account.wallet < listing.price:
+        messages.error(request, "You don't have enough funds to buy this Pokémon.")
+        return redirect('listing_detail', id=id)
+
+    seller_account = listing.seller
+    user_pokemon = listing.user_pokemon
+
+    buyer_account.wallet -= listing.price
+    seller_account.wallet += listing.price
+
+    user_pokemon.owner = buyer_account
+
+    listing.is_sold = True
+
+    buyer_account.save()
+    seller_account.save()
+    user_pokemon.save()
+    listing.save()
+
+    messages.success(request, f"You bought {user_pokemon.pokemon.name}!")
+    return redirect('marketplace.index')
+
+
+
+@login_required
+def edit_listing(request, id):
     listing = get_object_or_404(Listing, id=id)
 
-    # Pass the listing to the template
-    return render(request, 'marketplace/listing_detail.html', {'listing': listing})
+    if listing.seller.user != request.user:
+        return redirect('marketplace.index')
+
+    if request.method == 'POST':
+        form = ListingEditForm(request.POST, instance=listing)
+        if form.is_valid():
+            form.save()
+            return redirect('marketplace.index')  #
+    else:
+        form = ListingEditForm(instance=listing)
+
+    return render(request, 'marketplace/edit_listing.html', {
+        'form': form,
+        'listing': listing,
+    })
