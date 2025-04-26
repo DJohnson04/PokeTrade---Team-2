@@ -25,7 +25,8 @@ def index(request):
             )
     owned_pokemon = user_profile.pokemons.select_related('pokemon').filter(is_selling=False)
     for user_pokemon in owned_pokemon:
-        print(f"Pokemon: {user_pokemon.pokemon.name}, is_selling: {user_pokemon.is_selling}")
+        user_pokemon.is_sold = False
+
     return render(request, 'collection/index.html', {
         'owned_pokemon': owned_pokemon
     })

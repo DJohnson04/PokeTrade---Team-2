@@ -58,13 +58,7 @@ def create_listing(request):
         form = ListingForm(user=request.user, data=request.POST)
         if form.is_valid():
             user_pokemon = form.cleaned_data['user_pokemon']
-
-            #if pokemon is already on market, redirect and cancel
-            if user_pokemon.is_selling:
-                redirect('marketplace.index')
-
             price = form.cleaned_data['price']
-
             # Create a new Listing
             Listing.objects.create(
                 seller=user_profile,
@@ -77,7 +71,14 @@ def create_listing(request):
             return redirect('marketplace.index')
     else:
         form = ListingForm(user=request.user)
-
+    for listing in Listing.objects.all():
+        print(f"Listing ID: {listing.id}")
+        print(f"Seller: {listing.seller.user.username}")
+        print(f"Pokemon: {listing.user_pokemon.pokemon.name}")
+        print(f"Price: {listing.price}")
+        print(f"Is Sold: {listing.is_sold}")
+        print(f"Created At: {listing.created_at}")
+        print("------")
     return render(request, 'marketplace/create_listing.html', {'form': form})
 
 
@@ -87,9 +88,7 @@ def listing_detail(request, id):
 def purchase_listing(request, id):
     buyer_account = UserAccount.objects.get(user=request.user)
     listing = get_object_or_404(Listing, id=id)
-    if listing.is_sold:
-        messages.error("This pokemon has already been sold")
-        return redirect('listing_detail', id=id)
+
     if listing.seller == buyer_account:
         messages.error(request, "You can't buy your own listing.")
         return redirect('listing_detail', id=id)
@@ -112,7 +111,7 @@ def purchase_listing(request, id):
     seller_account.save()
     user_pokemon.save()
     listing.save()
-
+    listing.delete()
     messages.success(request, f"You bought {user_pokemon.pokemon.name}!")
     return redirect('marketplace.index')
 
