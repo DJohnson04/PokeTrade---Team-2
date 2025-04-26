@@ -16,6 +16,7 @@
         <input type="checkbox" name="my_listings" id="my-listings" {% if request.GET.my_listings %}checked{% endif %}>
         Show my listings only
     </label>
+    <p></p> <!-- These are a spacing workaround do not delete -->
 
     <!-- Sorting by price -->
     <label for="sort_by">Sort by Price:</label>
@@ -25,7 +26,9 @@
     </select>
 
     <button type="submit">Filter</button>
+    <h3></h3><!-- These are a spacing workaround do not delete -->
 </form>
+
    <!-- Display Listings -->
    {% for listing in page_obj %}
     <div class="listing">
