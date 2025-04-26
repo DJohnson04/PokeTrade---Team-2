@@ -11,7 +11,7 @@ class ListingForm(forms.ModelForm):
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['user_pokemon'].queryset = UserPokemon.objects.filter(owner__user=user)
+        self.fields['user_pokemon'].queryset = UserPokemon.objects.filter(owner__user=user, is_selling=False)
 class ListingEditForm(forms.ModelForm):
     class Meta:
         model = Listing

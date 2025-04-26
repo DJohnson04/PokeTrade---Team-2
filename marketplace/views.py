@@ -40,7 +40,11 @@ def index(request):
     paginator = Paginator(listings, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
+    for listing in listings:
+        user_pokemon = listing.user_pokemon
+        if not user_pokemon.is_selling:
+            user_pokemon.is_selling = True
+            user_pokemon.save()
     return render(request, 'marketplace/index.html', {
         'page_obj': page_obj,
         'sort_option': sort_option,
@@ -54,6 +58,11 @@ def create_listing(request):
         form = ListingForm(user=request.user, data=request.POST)
         if form.is_valid():
             user_pokemon = form.cleaned_data['user_pokemon']
+
+            #if pokemon is already on market, redirect and cancel
+            if user_pokemon.is_selling:
+                redirect('marketplace.index')
+
             price = form.cleaned_data['price']
 
             # Create a new Listing
@@ -61,8 +70,10 @@ def create_listing(request):
                 seller=user_profile,
                 user_pokemon=user_pokemon,
                 price=price,
-                is_sold=False
+                is_sold=False,
             )
+            user_pokemon.is_selling = True
+            user_pokemon.save()
             return redirect('marketplace.index')
     else:
         form = ListingForm(user=request.user)
@@ -94,7 +105,7 @@ def purchase_listing(request, id):
     seller_account.wallet += listing.price
 
     user_pokemon.owner = buyer_account
-
+    user_pokemon.is_selling = False
     listing.is_sold = True
 
     buyer_account.save()
