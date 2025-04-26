@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 <header class="masthead bg-index text-white text-center py-4">
-  <div class="container d-flex align-items-center flex-column pt-2">
-    <h2>PokeTrade</h2>
-    <p>Your One-Stop Shop for Digital Pokemon Card Collecting!</p>
-    <a class="nav-link"
-              href="{% url 'create_listing' %}">Create Listing</a>
-  </div>
-</header>
+    <div class="container d-flex align-items-center flex-column pt-2">
+      <h2>PokeTrade Marketplace</h2>  
+      <a href="{% url 'create_listing' %}" style="
+          color: #fff;
+          text-decoration: none;
+          display: inline-block;
+          background: rgba(0, 0, 0, 0.75);
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          font-weight: bold;
+      ">
+        Create Listing
+      </a>
+    </div>
+  </header>  
 
 <div class="container mt-4">
     <h3>Marketplace Listings</h3>
