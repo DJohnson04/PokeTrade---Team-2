@@ -13,6 +13,10 @@
       <img src="{{ listing.user_pokemon.pokemon.image_url }}" alt="{{ listing.user_pokemon.pokemon.name }}">
       <p><strong>Seller:</strong> {{ listing.seller.user.username }}</p>
       <p><strong>Price:</strong> ${{ listing.price }}</p>
+      <form method="post" action="{% url 'marketplace.purchase_listing' listing.id %}">
+      {% csrf_token %}
+      <button type="submit">Buy for {{ listing.price }} coins</button>
+    </form>
       <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>  <!-- You can add a description field to your model if needed -->
       <p><strong>Status:</strong> {% if listing.is_sold %} Sold {% else %} Available {% endif %}</p>
     </div>
