@@ -11,17 +11,58 @@
 
 <div class="container mt-4">
     <h3>Marketplace Listings</h3>
-    {% for listing in listings %}
-        <div class="listing">
-            <h4>{{ listing.seller.user.username }}</h4>
-            <p>{{ listing.user_pokemon.pokemon.name }}</p>
-            <img src="{{ listing.user_pokemon.pokemon.image_url }}" alt="{{ listing.user_pokemon.pokemon.name }}">
-            <p>Price: ${{ listing.price }}</p>
-            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">View Details</a>
-        </div>
-    {% empty %}
-        <p>No listings available.</p>
-    {% endfor %}
+<form method="get">
+    <label for="my-listings">
+        <input type="checkbox" name="my_listings" id="my-listings" {% if request.GET.my_listings %}checked{% endif %}>
+        Show my listings only
+    </label>
+
+    <!-- Sorting by price -->
+    <label for="sort_by">Sort by Price:</label>
+    <select name="sort_by" id="sort_by">
+        <option value="price_asc" {% if sort_option == 'price_asc' %}selected{% endif %}>Low to High</option>
+        <option value="price_desc" {% if sort_option == 'price_desc' %}selected{% endif %}>High to Low</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+   <!-- Display Listings -->
+   {% for listing in page_obj %}
+    <div class="listing">
+        <h4>{{ listing.seller.user.username }}</h4>
+        <p>{{ listing.user_pokemon.pokemon.name }}</p>
+        <img src="{{ listing.user_pokemon.pokemon.image_url }}" alt="{{ listing.user_pokemon.pokemon.name }}">
+        <p>Price: ${{ listing.price }}</p>
+        <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">View Details</a>
+
+        <!-- Show edit button only for the listing's seller -->
+        {% if listing.seller.user == user %}
+            <a href="{% url 'edit_listing' listing.id %}" class="btn btn-warning">Edit Listing</a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No listings available.</p>
+{% endfor %}
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.my_listings %}&my_listings=true{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.my_listings %}&my_listings=true{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.my_listings %}&my_listings=true{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.my_listings %}&my_listings=true{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
 </div>
 
 {% endblock content %}

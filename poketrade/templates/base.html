@@ -53,9 +53,7 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
             <a class="nav-link"
               href="{% url 'swap_house.index' %}">Trading</a>
             {% if user.is_authenticated %}
-            <a class="nav-link fw-bold text-success" href="{% url 'accounts:wallet' %}">
-              ₽ ${{ user.ownedpokemon.wallet }}
-            </a>
+            <a class="nav-link text-success" href="{% url 'accounts:wallet' %}">Wallet</a>
             <a class="nav-link"
               href="{% url 'accounts.logout' %}">Logout ({{ user.username }})</a>
             {% else %}
@@ -121,7 +119,7 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
         <div class="me-5 text-white">
           <span>DESIGNED BY
             <a href=""
-            target="_blank">David, Kirito, Lily, & Annabelle</a> &
+            target="_blank">David, Kirito, Lily, & Annabelle</a>
           </span>
         </div>
         <div class="text-white">
