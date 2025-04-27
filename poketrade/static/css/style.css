@@ -1,9 +1,27 @@
-.bg-index{
-  background: url("/static/img/darkerBackground.png") no-repeat fixed;
+{% load static %}
+.bg-user{
+  background: url("/static/img/trainer.jpg") no-repeat fixed;
   background-size: 100% auto;
+  background-position-y: center;
+  height: 60vh;
+}
+.bg-trading{
+  background: url("/static/img/tradepokemon.jpg") no-repeat fixed;
+  background-size: 100% auto;
+  height: 60vh;
+  background-position-y: bottom;
+}
+.bg-market{
+  background: url("/static/img/pokemarket.jpeg") no-repeat fixed;
+  background-size: 120% auto;
+  background-position-y: bottom;
+  height: 60vh;
 }
 .navbar a.nav-link {
   color: #FFFEF6 !important;
+}
+.navbar a.nav-link:hover{
+  color: #FFCC03 !important;
 }
 .bg-dark {
   background-color: #2E2E2E !important;
@@ -16,19 +34,43 @@
   font-size: 13px;
 }
 .ms-footer a:hover {
-  color: #6ab43e;
+  color: #FFCC03;
   text-decoration: none;
+}
+.card {
+  border-radius: 0 !important;
+  z-index:2;
+}
+.bg {
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  position:relative;
+  width:100%;
+  height:100%;
 }
 .ms-footer-bottom span{
   font-size: 13px;
   line-height: 38px;
 }
 .ms-footer-bottom a {
-  color: #6ab43e;
+  color: #FFCC03;
   text-decoration: none;
 }
 .ms-footer-bottom a:hover {
   color: #fff;
+}
+.carousel-caption{
+  z-index:2;
+}
+.carousel-overlay{
+  top:0;
+  left:0;
+  z-index:1;
+  width:100%;
+  position:absolute;
+  height:100%;
+  background-color:rgba(7,4,33, 0.65);
 }
 .img-card-200 {
   width: fit-content;
@@ -44,4 +86,8 @@
 }
 .blue-footer {
   background-color: #050926;
+}
+.blue-footer h5{
+  font-family: 'Wendy One', sans-serif;
+  font-size: medium;
 }
