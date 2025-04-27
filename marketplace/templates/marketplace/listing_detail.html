@@ -17,7 +17,14 @@
       {% csrf_token %}
       <button type="submit">Buy for {{ listing.price }} coins</button>
     </form>
-      <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>  <!-- You can add a description field to your model if needed -->
+      <p><strong>Base Stats:</strong></p>
+      <ul>
+        {% for stat in stats %}
+          <li>
+            {{ stat.stat.name|capfirst }}: {{ stat.base_stat }}
+          </li>
+        {% endfor %}
+      </ul>
       <p><strong>Status:</strong> {% if listing.is_sold %} Sold {% else %} Available {% endif %}</p>
     </div>
   </div>

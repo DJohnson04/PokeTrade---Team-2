@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render
-
+import requests
 # Create your views here.
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -84,7 +84,21 @@ def create_listing(request):
 
 def listing_detail(request, id):
     listing = get_object_or_404(Listing, id=id)
-    return render(request, 'marketplace/listing_detail.html', {'listing': listing})
+
+    pokemon_name = listing.user_pokemon.pokemon.name.lower()
+    api_url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}/"
+    try:
+        resp = requests.get(api_url, timeout=5)
+        resp.raise_for_status()
+        stats = resp.json().get("stats", [])
+    except Exception:
+        stats = []
+
+    return render(request, 'marketplace/listing_detail.html', {
+        'listing': listing,
+        'stats': stats,
+    })
+
 def purchase_listing(request, id):
     buyer_account = UserAccount.objects.get(user=request.user)
     listing = get_object_or_404(Listing, id=id)

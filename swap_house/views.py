@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-
+import requests
 from .models import Trade, TradeOffer
 from .forms import PostTradeForm, OfferTradeForm
 from accounts.models import UserAccount
@@ -56,11 +56,27 @@ def offer_trade_view(request, trade_id):
         form.cleaned_data['offered_cards'].update(is_selling=True)
         return redirect('swap_house:index')
 
+    cards_data = []
+    for card in trade.offered_cards.all():
+        url = f"https://pokeapi.co/api/v2/pokemon/{card.pokemon.name.lower()}/"
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            data = resp.json()
+            stats = data.get("stats", [])
+        else:
+            stats = []
+        cards_data.append({
+            "card": card,
+            "stats": stats
+        })
+
     return render(request, 'swap_house/trade_offer.html', {
-        'template_data': {'title': 'Make an Offer'},
-        'trade': trade,
-        'form': form
+    'template_data': {'title': 'Make an Offer'},
+    'trade': trade,
+    'form': form,
+    'cards_data': cards_data,
     })
+
 
 
 @login_required
@@ -97,7 +113,8 @@ def accept_offer_view(request, trade_id, offer_id):
     offer.save()
     trade.offers.filter(status='pending').update(status='rejected')
 
-    return redirect('swap_house:trade_detail', trade_id=trade.id)
+    return redirect('swap_house:received_offers')
+
 
 
 @login_required
@@ -108,4 +125,16 @@ def reject_offer_view(request, trade_id, offer_id):
     offer.status = 'rejected'
     offer.save()
     offer.offered_cards.update(is_selling=False)
-    return redirect('swap_house:trade_detail', trade_id=trade.id)
+    return redirect('swap_house:received_offers')
+
+
+@login_required
+def received_offers_view(request):
+    account, _ = UserAccount.objects.get_or_create(user=request.user)
+    # All offers on trades you’ve posted, excluding cancelled
+    offers = TradeOffer.objects.filter(trade__poster=account) \
+                               .exclude(status='cancelled')
+    return render(request, 'swap_house/received_offers.html', {
+        'template_data': {'title': 'Offers Received'},
+        'received_offers': offers
+    })

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container mt-4">
+    <h2>Offers Received</h2>
+
+    {% if received_offers %}
+      {% for offer in received_offers %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5>Offer on Trade #{{ offer.trade.id }} by {{ offer.offerer.user.username }}</h5>
+
+            <p><strong>You offered:</strong></p>
+            <ul>
+              {% for card in offer.trade.offered_cards.all %}
+                <li>{{ card.pokemon.name }}</li>
+              {% endfor %}
+            </ul>
+
+            <p><strong>They offer:</strong></p>
+            <ul>
+              {% for card in offer.offered_cards.all %}
+                <li>{{ card.pokemon.name }}</li>
+              {% endfor %}
+            </ul>
+
+            <p>Status: <em>{{ offer.status|capfirst }}</em></p>
+            {% if offer.status == 'pending' %}
+              <a href="{% url 'swap_house:accept_offer' offer.trade.id offer.id %}"
+                 class="btn btn-success btn-sm me-2">
+                Accept
+              </a>
+              <a href="{% url 'swap_house:reject_offer' offer.trade.id offer.id %}"
+                 class="btn btn-danger btn-sm">
+                Reject
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No offers have been made on your trades yet.</p>
+    {% endif %}
+
+    <a href="{% url 'swap_house:index' %}" class="btn btn-secondary mt-3">
+      Back to Trading
+    </a>
+  </div>
+{% endblock %}
