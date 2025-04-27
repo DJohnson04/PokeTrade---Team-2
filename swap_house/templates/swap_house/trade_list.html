@@ -32,7 +32,7 @@
           <div class="col">
             <div class="card h-100">
               <div class="card-body">
-                <h5 class="card-title">Offered by {{ trade.poster.username }}</h5>
+                <h5 class="card-title">Offered by {{ trade.poster.user.username }}</h5>
                 <p class="card-text"><strong>Pokémon:</strong></p>
                 <ul class="list-unstyled">
                     {% for card in trade.offered_cards.all %}
