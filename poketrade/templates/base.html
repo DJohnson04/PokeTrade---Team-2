@@ -10,10 +10,7 @@ crossorigin="anonymous">
 <link rel=
 "stylesheet" href="https://cdnjs.cloudflare.com/
 ajax/libs/font-awesome/6.1.1/css/all.min.css">
-<link href=
-"https://fonts.googleapis.com/
-css2?family=Poppins:wght@300;400;500;600;700&display=
-swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Wendy+One&display=swap" rel="stylesheet">
 <script src=
 "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/
 js/bootstrap.bundle.min.js" crossorigin="anonymous">
@@ -26,12 +23,11 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
   </head>
   <body>
     <!-- Header -->
-      <nav class="p-3 navbar navbar-dark bg-dark
-         navbar-expand-lg">
+      <nav class="p-3 navbar blue-navbar navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand"
            href="{% url 'home.index' %}">
-          <img src="{% static 'img/logo.png' %}" alt="logo"
+          <img src="{% static 'img/newlogo.png' %}" alt="logo"
                height="40" />
         </a>
         <button class="navbar-toggler" type="button"
@@ -50,7 +46,7 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
               href="{% url 'collection.index' %}">Collection</a>
             <a class="nav-link"
               href="{% url 'marketplace.index' %}">Marketplace</a>
-            <a class="nav-link" 
+            <a class="nav-link"
               href="{% url 'swap_house:index' %}">Trading</a>
             {% if user.is_authenticated %}
             <a class="nav-link text-success" href="{% url 'accounts:wallet' %}">Wallet</a>
@@ -76,24 +72,24 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
       {% endblock content %}
     </div>
     <!-- Footer -->
-    <section class="p-3 ms-footer d-none d-md-block">
+    <section class="p-3 ms-footer d-none d-md-block blue-footer">
       <div class="container">
         <div class="row mt-3 text-white">
           <div class="col-md-6 col-lg-6 col-xl-6
                mx-auto mb-4">
-            <b>PokeTrade</b>
+            <b style="font-family: 'Wendy One', sans-serif;">PokéTrade</b>
             <hr />
             <p>
-              Welcome to PokeTrade Site, your premier online
+              Welcome to PokéTrade Site, your premier online
               destination for a cinematic adventure like no
-              other! Dive into the world of Pokemon Trading from the
+              other! Dive into the world of Pokémon Trading from the
               comfort of your own home with our user-
               friendly and immersive online Trading website.
             </p>
           </div>
           <div class="col-md-3 col-lg-3 col-xl-3
                mx-auto mb-4">
-            <b>LINKS</b>
+            <b style="font-family: 'Wendy One', sans-serif;">LINKS</b>
             <hr />
             <p><a class="nav-link"
               href="{% url 'home.about' %}">
@@ -102,7 +98,7 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
           </div>
           <div class="col-md-3 col-lg-3 col-xl-3 mx-auto
                mb-4">
-            <b>CONTACT</b>
+            <b style="font-family: 'Wendy One', sans-serif;">CONTACT</b>
             <hr />
 
             <p><i class="fas fa-envelope me-2"></i>
@@ -113,7 +109,7 @@ js/bootstrap.bundle.min.js" crossorigin="anonymous">
         </div>
       </div>
     </section>
-    <section class="p-3 ms-footer-bottom bg-dark">
+    <section class="p-3 ms-footer-bottom blue-navbar">
       <div class="container d-flex
            justify-content-between">
         <div class="me-5 text-white">

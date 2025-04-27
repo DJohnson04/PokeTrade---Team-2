@@ -38,3 +38,10 @@
   width: fit-content;
   max-height: 400px;
 }
+.blue-navbar, .blue-navbar * {
+  font-family: 'Wendy One', sans-serif;
+  background-color: #11195c;
+}
+.blue-footer {
+  background-color: #050926;
+}
