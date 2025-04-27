@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <header class="masthead bg-index text-white text-center py-4">
+    <div class="container d-flex align-items-center flex-column pt-2">
+      <h2>PokeTrade Trading</h2>
+      <a href="{% url 'swap_house:post_trade' %}"
+         class="btn btn-lg btn-primary"
+         style="
+           background: rgba(0,0,0,0.75);
+           color: #fff;
+           text-decoration: none;
+           font-weight: bold;
+         ">
+        Post New Trade
+      </a>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <h3>Open Trades</h3>
+
+    {% if template_data.open_trades %}
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for trade in template_data.open_trades %}
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Offered by {{ trade.poster.username }}</h5>
+                <p class="card-text"><strong>Pokémon:</strong></p>
+                <ul class="list-unstyled">
+                    {% for card in trade.offered_cards.all %}
+                        <li>{{ card.pokemon.name }}</li>
+                    {% endfor %}
+                </ul>
+              </div>
+              <div class="card-footer text-end">
+                {% if trade.poster.user != user %}
+                  <a href="{% url 'swap_house:offer_trade' trade.id %}"
+                     class="btn btn-success btn-sm">
+                    Make an Offer
+                  </a>
+                {% else %}
+                  <span class="text-muted">Your Trade</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No open trades right now.</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container mt-4">
+    <h2>Make an Offer on {{ trade.poster.user.username }}’s Trade</h2>
+
+    <p><strong>They are offering:</strong></p>
+    <div class="row mb-4">
+      {% for card in trade.offered_cards.all %}
+        <div class="col-md-4">
+          <div class="card h-100">
+            <img src="{{ card.pokemon.image_url }}"
+                 class="card-img-top"
+                 alt="{{ card.pokemon.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ card.pokemon.name }}</h5>
+              <p class="card-text">
+                {{ card.pokemon.description|default:"(Placeholder text)" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <h4>Your Offer</h4>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Submit Offer</button>
+      <a href="{% url 'swap_house:index' %}" class="btn btn-secondary ms-2">Back to Trades</a>
+    </form>
+  </div>
+{% endblock %}
