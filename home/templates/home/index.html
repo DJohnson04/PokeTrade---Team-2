@@ -1,18 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<header class="masthead bg-index text-white text-center
-           py-4">
-  <div class="container d-flex align-items-center flex-
-  column pt-2">
-    <h2>PokeTrade</h2>
-    <p>Your One-Stop Shop for Digital Pokemon Card Collecting!</p>
-  </div>
-</header>
+    <div id="welcomeCarousel" class="carousel slide" data-bs-interval="6500" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'img/pokemons.jpg' %}" class="d-block w-100" style="height: 70vh; object-fit:cover;">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-caption d-none d-md-block">
+                <h2 style="display: inline; font-family: 'Wendy One', sans-serif; color:#FFCC03">Collect</h2><h2 style="font-family: 'Wendy One', sans-serif; display:inline"> your favorite Pokémon online!</h2>
+                <p style="font-size:larger; font-family: 'Sniglet', sans-serif;">Build a virtual collection of Pokémon cards on PokéTrade, your one-stop shop for digital Poké-collection!</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'img/Trading.jpg' %}" class="d-block w-100" style="height: 70vh; object-fit:cover;">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-caption d-none d-md-block">
+                <h2 style="display: inline; font-family: 'Wendy One', sans-serif; color:#FFCC03">Trade</h2><h2 style="font-family: 'Wendy One', sans-serif; display:inline"> digital Pokémon with our PokéTrade community!</h2>
+                <p style="font-size:larger; font-family: 'Sniglet', sans-serif;">In our Swap House, you can trade Pokémon from your virtual collection.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'img/buying.jpg' %}" class="d-block w-100" style="height: 70vh; object-fit:cover;">
+            <div class="carousel-overlay"></div>
+            <div class="carousel-caption d-none d-md-block">
+                <h2 style="display: inline; font-family: 'Wendy One', sans-serif; color:#FFCC03">Buy and Sell</h2><h2 style="font-family: 'Wendy One', sans-serif; display:inline"> in our bustling virtual Pokémon Marketplace!</h2>
+                <p style="font-size:larger; font-family: 'Sniglet', sans-serif;">Shipping? Scalpers? Not on our website! All sales on PokéTrade are virtual!</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#welcomeCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#welcomeCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+
 <div class="p-3">
   <div class="container">
     <div class="row mt-3">
       <div class="col mx-auto text-center mb-3">
-        <h4>Welcome to PokeTrade!</h4>
+          <img src="{% static 'img/newlogo.png' %}">
+          <h2 style="font-family: 'Sniglet', sans-serif;">Gotta trade'em all!</h2>
       </div>
     </div>
   </div>
