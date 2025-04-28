@@ -13,6 +13,8 @@ class PostTradeForm(forms.Form):
         # Only show cards NOT already in a listing/trade and owned by user
         qs = user_account.pokemons.filter(is_selling=False)
         self.fields['offered_cards'].queryset = qs
+        self.fields['offered_cards'].label_from_instance = lambda obj: obj.pokemon.name.capitalize()
+
 
 class OfferTradeForm(forms.Form):
     offered_cards = forms.ModelMultipleChoiceField(
@@ -25,3 +27,5 @@ class OfferTradeForm(forms.Form):
         super().__init__(*args, **kwargs)
         qs = user_account.pokemons.filter(is_selling=False)
         self.fields['offered_cards'].queryset = qs
+        self.fields['offered_cards'].label_from_instance = lambda obj: obj.pokemon.name.capitalize()
+

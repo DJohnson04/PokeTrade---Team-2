@@ -10,7 +10,7 @@
   <hr/>
   <p style="padding-bottom: 2%; font-size: large; font-family: 'Sniglet', sans-serif">Here, you can offer cards from your collection up for an open trade.</p>
   <div class="container mt-4">
-    <form method="post" style="font-family: 'Sniglet', sans-serif; font-size: large">
+    <form method="post" style="text-transform:capitalize; font-family: 'Sniglet', sans-serif; font-size: large">
       {% csrf_token %}
       {{ form.as_p }}
         <div class="text-center">
