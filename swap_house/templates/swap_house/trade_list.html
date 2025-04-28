@@ -2,52 +2,56 @@
 {% load static %}
 
 {% block content %}
-  <header class="masthead bg-trading text-white text-center d-flex flex-column justify-content-center align-items-center">
-    <div class="container d-flex align-items-center flex-column pt-2">
+ <header class="masthead bg-trading text-white text-center d-flex flex-column justify-content-center align-items-center">
+  <div class="container d-flex align-items-center flex-column pt-2">
     <h1 style="text-shadow: 0px 7px 13px rgba(7,4,33, 0.8); font-size: xxx-large; font-family: 'Wendy One', sans-serif">The Swap House</h1>
+
+    <div class="button-container" style="display: flex; justify-content: center; gap: 15px; padding-top: 20px;">
       <a href="{% url 'swap_house:post_trade' %}"
          class="btn btn-lg btn-primary"
-         style="
-           background: rgba(0,0,0,0.75);
-           color: #fff;
-           text-decoration: none;
-           font-weight: bold;
-         ">
-        Post New Trade
+         style="font-family: 'Wendy One', sans-serif; background: rgba(7,4,33,0.75); color: #FFCC03; text-decoration: none">
+         Create New Trade
       </a>
       <a href="{% url 'swap_house:received_offers' %}"
-         class="btn btn-lg btn-outline-light"
-         style="font-weight:bold;">
-        View Received Offers
+         class="btn btn-lg btn-primary"
+         style="font-family: 'Wendy One', sans-serif; background: rgba(7,4,33,0.75); color: #FFCC03; text-decoration: none">
+         View Received Offers
       </a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <div class="container mt-4">
-    <h3>Open Trades</h3>
 
+  <div class="container mt-4" style="padding-bottom:5%">
+    <h2 style="font-family: 'Wendy One', sans-serif">Open Trades</h2>
+    <hr />
+    <p style="padding-bottom: 5%; font-size: large; font-family: 'Sniglet', sans-serif">Welcome to the Swap House! Here, you can trade Pokémon with other PokéTrade users.</p>
     {% if template_data.open_trades %}
       <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for trade in template_data.open_trades %}
           <div class="col">
             <div class="card h-100">
               <div class="card-body">
-                <h5 class="card-title">Offered by {{ trade.poster.user.username }}</h5>
-                <p class="card-text"><strong>Pokémon:</strong></p>
+                <p class="card-text" style="font-family: 'Wendy One', sans-serif; font-size:large">Pokémon Offered</p>
+                <hr/>
                 <ul class="list-unstyled">
                     {% for card in trade.offered_cards.all %}
-                        <li>{{ card.pokemon.name }}</li>
+                        <li style="text-transform: capitalize; font-family: 'Sniglet', sans-serif">{{ card.pokemon.name }}</li>
                     {% endfor %}
                 </ul>
+                <div style="position:absolute; bottom:5px; padding-bottom:2%">
+                   <h3 style="display: inline; font-family: 'Sniglet', sans-serif; font-size:large" class="card-title">Offered by </h3><p style="display: inline; font-family: 'Wendy One', sans-serif; font-size:large" class="card-title">{{ trade.poster.user.username }}</p>
+                </div>
               </div>
-              <div class="card-footer text-end">
+              <div class="card-footer text-end" style="padding-top:2%; padding-bottom:2%">
                 {% if trade.poster.user != user %}
                   <a href="{% url 'swap_house:offer_trade' trade.id %}"
-                     class="btn btn-success btn-sm">
+                     class="btn btn-success text-white"
+                      style="font-family: 'Sniglet', sans-serif; background-color: #386ABB;">
                     Make an Offer
                   </a>
                 {% else %}
-                  <span class="text-muted">Your Trade</span>
+                  <span class="text-muted"  style="padding-top:3%; padding-bottom:2%; font-family: 'Sniglet', sans-serif">Your Trade</span>
                 {% endif %}
               </div>
             </div>
@@ -55,7 +59,7 @@
         {% endfor %}
       </div>
     {% else %}
-      <p>No open trades right now.</p>
+      <p style="font-family: 'Sniglet', sans-serif; font-size: xx-large" class="text-center">No open trades right now.</p>
     {% endif %}
   </div>
 {% endblock %}

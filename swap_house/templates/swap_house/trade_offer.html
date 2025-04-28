@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
+<header style="height:20vh" class="masthead bg-offer text-white text-center d-flex flex-column justify-content-center align-items-center">
+  <div class="container d-flex align-items-center flex-column pt-2">
+    </div>
+  </div>
+</header>
   <div class="container mt-4">
-    <h2>Make an Offer on {{ trade.poster.user.username }}’s Trade</h2>
-
-    <p><strong>They are offering:</strong></p>
+    <h2 style="font-family: 'Wendy One', sans-serif">Make an Offer on {{ trade.poster.user.username }}’s Trade</h2>
+    <hr/>
+    <p style="padding-bottom: 2%; font-size: large; font-family: 'Sniglet', sans-serif">{{ trade.poster.user.username }} is offering the following card(s):</p>
     <div class="row mb-4">
         {% for item in cards_data %}
             {% with card=item.card stats=item.stats %}
                 <div class="col-md-4">
-                    <div class="card h-100">
+                    <div class="card h-100" style="border: 4px solid #386ABB; box-shadow: 0 3px 8px rgba(7, 4, 33, 0.5);">
                         <img src="{{ card.pokemon.image_url }}"
                             class="card-img-top"
                             alt="{{ card.pokemon.name }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ card.pokemon.name }}</h5>
-                            <p class="card-text"><strong>Base Stats:</strong></p>
-                            <ul class="list-unstyled">
+                            <h1 class="card-title text-center" style=" font-size:xx-large; text-transform: capitalize; font-family: 'Wendy One', sans-serif">{{ card.pokemon.name }}</h1>
+                            <h2 class="card-text text-center" style="text-transform: capitalize; font-size: x-large; font-family: 'Sniglet', sans-serif;">({{ card.pokemon.types }})</h2>
+                            <hr/>
+                            <p class="card-text text-center" style="font-family: 'Sniglet', sans-serif; font-size: x-large">Base Stats:</p>
+                            <ul class="list-unstyled" style="font-family: 'Sniglet', sans-serif; font-size: large">
                                 {% for stat in stats %}
                                     <li>
                                         {{ stat.stat.name|capfirst }}:
@@ -29,13 +36,18 @@
             {% endwith %}
         {% endfor %}
     </div>
-
-    <h4>Your Offer</h4>
-    <form method="post">
+    <h2 style="font-family: 'Wendy One', sans-serif; padding-top:5%">Your Offer</h2>
+    <hr/>
+    <form method="post" style="font-family: 'Sniglet', sans-serif; font-size: large">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Submit Offer</button>
-      <a href="{% url 'swap_house:index' %}" class="btn btn-secondary ms-2">Back to Trades</a>
+        <div class="text-center">
+            <button type="submit"
+               style="margin:2%; font-size:x-large; font-family: 'Sniglet', sans-serif; background-color: #386ABB;"
+               class="btn text-white">Submit Offer
+            </button>
+            <a href="{% url 'swap_house:index' %}" style="margin:2%;font-size:x-large; font-family: 'Sniglet', sans-serif;" class="btn btn-secondary ms-2">Back to Trades</a>
+        </div>
     </form>
   </div>
 {% endblock %}

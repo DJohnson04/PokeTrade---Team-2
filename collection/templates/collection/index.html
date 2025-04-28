@@ -12,15 +12,24 @@
     </div>
   </header>
     <div class="container mt-4 text-center d-flex flex-column justify-content-center align-items-center"><h3 style="font-size: xx-large; font-family: 'Wendy One', sans-serif">Owned Pokémon</h3></div>
+    <hr/>
     <div style="padding-left:15%; padding-right:15%; padding-bottom:3%; padding-top:3%" class="row justify-content-center g-2">
         {% for user_poke in owned_pokemon %}
             <div class="col-md-4 col-lg-3 mb-2">
-                <div class="p-2 card align-items-center pt-4" style="width: 10rem;">
+                <div class="p-2 card align-items-center pt-4" style="width: 10rem; border: 4px solid #386ABB; box-shadow: 0 3px 8px rgba(7, 4, 33, 0.5);">
                     <div style="width:100%" class="ratio ratio-1x1 img-card-400">
                         <img src="{{ user_poke.pokemon.image_url }}" class="fluid card-img-top square rounded" alt="{{ user_poke.pokemon.name }}">
                     </div>
                     <div class="card-body text-center">
-                        <p style="text-transform: capitalize;">{{ user_poke.pokemon.name }}</p>
+                        <h2 style=" font-size:large; text-transform: capitalize; font-family: 'Wendy One', sans-serif">{{ user_poke.pokemon.name }}<br><i style="font-family: 'Sniglet', sans-serif; font-size:small">({{ user_poke.pokemon.types }})</i></h2>
+                        <p class="card-text" style="font-family: 'Sniglet', sans-serif">Base Stats:</p>
+                            <ul class="list-unstyled" style="text-align: left; white-space: nowrap; font-family: 'Sniglet', sans-serif; font-size:small">
+                                {% for stat in stats %}
+                                    <li>
+                                        {{ stat.stat.name|capfirst }}: {{ stat.base_stat }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
                     </div>
                 </div>
             </div>
