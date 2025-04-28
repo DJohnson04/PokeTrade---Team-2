@@ -1,32 +1,42 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <header class="masthead bg-primary text-white text-center py-4">
-    <div class="container d-flex align-items-center flex-column pt-2">
-      <h2>Listing Details</h2>
-    </div>
-  </header>
-
-  <div class="container mt-4">
-    <div class="listing-detail">
-      <h3>{{ listing.user_pokemon.pokemon.name }}</h3>
-      <img src="{{ listing.user_pokemon.pokemon.image_url }}" alt="{{ listing.user_pokemon.pokemon.name }}">
-      <p><strong>Seller:</strong> {{ listing.seller.user.username }}</p>
-      <p><strong>Price:</strong> ${{ listing.price }}</p>
-      <form method="post" action="{% url 'marketplace.purchase_listing' listing.id %}">
-      {% csrf_token %}
-      <button type="submit">Buy for {{ listing.price }} coins</button>
-    </form>
-      <p><strong>Base Stats:</strong></p>
-      <ul>
-        {% for stat in stats %}
-          <li>
-            {{ stat.stat.name|capfirst }}: {{ stat.base_stat }}
-          </li>
-        {% endfor %}
-      </ul>
-      <p><strong>Status:</strong> {% if listing.is_sold %} Sold {% else %} Available {% endif %}</p>
+<header style="height:20vh" class="masthead bg-listing text-white text-center d-flex flex-column justify-content-center align-items-center">
+  <div class="container d-flex align-items-center flex-column pt-2">
     </div>
   </div>
-
+</header>
+  <div class="container mt-4">
+    <h2 style="font-family: 'Wendy One', sans-serif">Listing Details</h2>
+  <hr/>
+  <p style="padding-bottom: 2%; font-size: large; font-family: 'Sniglet', sans-serif"> {{ listing.seller.user.username }} is selling their {{ listing.user_pokemon.pokemon.name |capfirst }} for ${{ listing.price }}.</p>
+  <div class="d-flex justify-content-center my-4">
+    <div class="card h-100" style="width: 25rem; border: 4px solid #386ABB; box-shadow: 0 3px 8px rgba(7, 4, 33, 0.5);">
+        <img src="{{ listing.user_pokemon.pokemon.image_url }}"
+            class="card-img-top"
+            alt="{{ listing.user_pokemon.pokemon.name }}">
+        <div class="card-body">
+            <h1 class="card-title text-center" style=" font-size:xx-large; text-transform: capitalize; font-family: 'Wendy One', sans-serif">{{ listing.user_pokemon.pokemon.name }}</h1>
+            <h2 class="card-text text-center" style="text-transform: capitalize; font-size: x-large; font-family: 'Sniglet', sans-serif;">({{ listing.user_pokemon.pokemon.types }})</h2>
+            <hr/>
+            <p class="card-text text-center" style="font-family: 'Sniglet', sans-serif; font-size: x-large">Base Stats:</p>
+            <ul class="list-unstyled" style="font-family: 'Sniglet', sans-serif; font-size: large">
+                {% for stat in stats %}
+                    <li>
+                        {{ stat.stat.name|capfirst }}:
+                        {{ stat.base_stat }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<h2 style="padding-top:3%; padding-bottom:3%; font-size: xx-large; font-family: 'Sniglet', sans-serif" class="text-center">This Pokémon {% if listing.is_sold %} has been sold, and is no longer available. {% else %} is available for ${{ listing.price }}.{% endif %}</h2>
+<form method="post" style="padding-bottom:5%" class="text-center" action="{% url 'marketplace.purchase_listing' listing.id %}">
+    {% csrf_token %}
+    {% if listing.seller.user != user %}
+        <button type="submit" class="btn btn-success text-white" style="font-size: x-large; font-family: 'Sniglet', sans-serif; background-color: #386ABB;">Buy for ${{ listing.price }}</button>
+    {% endif %}
+</form>
+  </div>
 {% endblock content %}

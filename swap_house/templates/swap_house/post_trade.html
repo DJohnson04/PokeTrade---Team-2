@@ -1,12 +1,25 @@
 {% extends "base.html" %}
-
 {% block content %}
+<header style="height:20vh" class="masthead bg-offer text-white text-center d-flex flex-column justify-content-center align-items-center">
+  <div class="container d-flex align-items-center flex-column pt-2">
+    </div>
+  </div>
+</header>
+<div class="container mt-4">
+  <h2 style="font-family: 'Wendy One', sans-serif">Create New Trade</h2>
+  <hr/>
+  <p style="padding-bottom: 2%; font-size: large; font-family: 'Sniglet', sans-serif">Here, you can offer cards from your collection up for an open trade.</p>
   <div class="container mt-4">
-    <h2>Post a New Trade</h2>
-    <form method="post">
+    <form method="post" style="font-family: 'Sniglet', sans-serif; font-size: large">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary mt-2">Post Trade</button>
+        <div class="text-center">
+            <button type="submit"
+               style="margin:2%; font-size:x-large; font-family: 'Sniglet', sans-serif; background-color: #386ABB;"
+               class="btn text-white">Create Trade
+            </button>
+            <a href="{% url 'swap_house:index' %}" style="margin:2%;font-size:x-large; font-family: 'Sniglet', sans-serif;" class="btn btn-secondary ms-2">Back to Trades</a>
+        </div>
     </form>
   </div>
 {% endblock %}
