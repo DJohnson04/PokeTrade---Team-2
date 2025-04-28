@@ -1,30 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-<header class="masthead bg-index text-white text-center py-4">
+<header style="height:20vh" class="masthead bg-listing text-white text-center d-flex flex-column justify-content-center align-items-center">
   <div class="container d-flex align-items-center flex-column pt-2">
-    <h2>PokeTrade</h2>
-    <p>Your One-Stop Shop for Digital Pokemon Card Collecting!</p>
+    </div>
   </div>
 </header>
+  <div class="container mt-4">
+    <h2 style="font-family: 'Wendy One', sans-serif">Create a New Listing</h2>
+  <hr/>
+  <p style="padding-bottom: 2%; font-size: large; font-family: 'Sniglet', sans-serif">Here, you can sell Pokémon from your collection.</p>
 
 <div class="p-3">
   <div class="container">
-    <div class="row mt-3">
-      <div class="col mx-auto text-center mb-3">
-        <h4>Create a New Listing</h4>
-      </div>
-    </div>
-
     <div class="row">
       <div class="col-md-6 mx-auto">
-        <form method="POST">
+        <form method="POST" style="font-family: 'Sniglet', sans-serif; font-size: large">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">Create Listing</button>
+          <div class="text-center" style="padding-top:5%">
+            <button type="submit"
+               style="margin:2%; font-size:x-large; font-family: 'Sniglet', sans-serif; background-color: #386ABB;"
+               class="btn text-white">Create Listing
+            </button>
+            <a href="{% url 'marketplace.index' %}" style="margin:2%;font-size:x-large; font-family: 'Sniglet', sans-serif;" class="btn btn-secondary ms-2">Back to the Marketplace</a>
+        </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock content %}

@@ -1,48 +1,59 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="container mt-4">
-    <h2>Offers Received</h2>
+<header style="height:20vh" class="masthead bg-offer text-white text-center d-flex flex-column justify-content-center align-items-center">
+  <div class="container d-flex align-items-center flex-column pt-2">
+    </div>
+</header>
 
-    {% if received_offers %}
-      {% for offer in received_offers %}
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5>Offer on Trade #{{ offer.trade.id }} by {{ offer.offerer.user.username }}</h5>
+<div class="container mt-4">
+  <h2 style="font-family: 'Wendy One', sans-serif">Offer Inbox</h2>
+  <hr/>
+  <p style="padding-bottom: 5%; font-size: large; font-family: 'Sniglet', sans-serif">Offers made by other users on your Swap House listings are posted here.</p>
 
-            <p><strong>You offered:</strong></p>
-            <ul>
-              {% for card in offer.trade.offered_cards.all %}
-                <li>{{ card.pokemon.name }}</li>
-              {% endfor %}
-            </ul>
+  {% if received_offers %}
+    {% for offer in received_offers %}
+      <div class="card mb-3" style="border-width:4px">
+        <div class="card-body d-flex justify-content-between flex-column" style="height:100%">
+          <h5 class="text-center" style="font-size: x-large;font-family: 'Wendy One', sans-serif">{{ offer.offerer.user.username }} is Offering on Trade #{{ offer.trade.id }}</h5>
+          <hr style="padding-bottom: 2%;"/>
+          <p style="font-family: 'Sniglet', sans-serif; font-size:large;">You Posted:</p>
+          <ul class="list-unstyled" style="text-transform:capitalize;padding-left:2%;font-family: 'Sniglet', sans-serif; font-size:medium;">
+            {% for card in offer.trade.offered_cards.all %}
+                <li>{{ card.pokemon.name }} <i>({{ card.pokemon.types }})</i></li>
+            {% endfor %}
+          </ul>
 
-            <p><strong>They offer:</strong></p>
-            <ul>
-              {% for card in offer.offered_cards.all %}
-                <li>{{ card.pokemon.name }}</li>
-              {% endfor %}
-            </ul>
-
-            <p>Status: <em>{{ offer.status|capfirst }}</em></p>
+          <p style="font-family: 'Sniglet', sans-serif; font-size:large;">They Offer:</p>
+          <ul class="list-unstyled" style="text-transform:capitalize;padding-left:2%;font-family: 'Sniglet', sans-serif; font-size:medium;">
+            {% for card in offer.offered_cards.all %}
+                <li>{{ card.pokemon.name }} <i>({{ card.pokemon.types }})</i></li>
+            {% endfor %}
+          </ul>
+         <hr/>
+          <div style="text-align:left; align-self: flex-end; padding-right:2%; padding-bottom:2%" class="mt-3">
+            <p class="text-center" style="font-family: 'Wendy One', sans-serif;">Status: <em>{{ offer.status|capfirst }}</em></p>
             {% if offer.status == 'pending' %}
-              <a href="{% url 'swap_house:accept_offer' offer.trade.id offer.id %}"
-                 class="btn btn-success btn-sm me-2">
-                Accept
-              </a>
-              <a href="{% url 'swap_house:reject_offer' offer.trade.id offer.id %}"
-                 class="btn btn-danger btn-sm">
-                Reject
-              </a>
-            {% endif %}
+            <a href="{% url 'swap_house:accept_offer' offer.trade.id offer.id %}"
+               class="btn btn-success btn-sm me-2" style="font-size: large;font-family: 'Wendy One', sans-serif;">
+              Accept
+            </a>
+            <a href="{% url 'swap_house:reject_offer' offer.trade.id offer.id %}"
+               class="btn btn-danger btn-sm" style="font-size: large;font-family: 'Wendy One', sans-serif;">
+               Reject
+            </a>
+          {% endif %}
           </div>
         </div>
-      {% endfor %}
-    {% else %}
-      <p>No offers have been made on your trades yet.</p>
-    {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="font-family: 'Sniglet', sans-serif; font-size:large;">No offers have been made on your trades yet.</p>
+  {% endif %}
 
-    <a href="{% url 'swap_house:index' %}" class="btn btn-secondary mt-3">
-      Back to Trading
+  <div class="text-center" style="padding-top:5%; padding-bottom:3%">
+    <a href="{% url 'swap_house:index' %}" style="font-family: 'Wendy One', sans-serif; font-size:x-large;" class="btn btn-secondary mt-3">
+    Back to Trading
     </a>
   </div>
+</div>
 {% endblock %}
